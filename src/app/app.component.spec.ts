@@ -47,11 +47,22 @@ describe('AppComponent', () => {
   });
 
   it('should populate products on init', waitForAsync(() => {
-    console.log("ngOnInit");
     app.ngOnInit();
     
-    app.products.subscribe(products => {
-      expect(products).toEqual(fakeProducts);
-    });
+    expect(app.products.value).toEqual(fakeProducts);
+  }));
+
+  it('should update products when filters are updated', waitForAsync(() => {
+    app.updateFilters([products => products.filter(product => (product.price ?? 0) > 100)]);
+
+    expect(app.products.value).toEqual([fakeProducts[1]]);
+
+    app.updateFilters([products => products.filter(product => (product.price ?? 0) > 200)]);
+
+    expect(app.products.value).toEqual([]);
+
+    app.updateFilters([products => products.filter(product => (product.price ?? 0) > 50), products => products.filter(product => (product.price ?? 0) < 150)]);
+
+    expect(app.products.value).toEqual([fakeProducts[0]]);
   }));
 });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from './services/products.service';
 import { Product } from './products';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,4 +18,9 @@ export class AppComponent implements OnInit {
     this.productsService.getProductList().subscribe(this.products);
   }
 
+  updateFilters(filters: ((products: Product[]) => Product[])[]) {
+    this.productsService.getProductList().pipe(
+      map(products => filters.reduce((filteredProducts, filter) => filter(filteredProducts), products))
+    ).subscribe(this.products);
+  }
 }
