@@ -1,4 +1,4 @@
 <div class="wrapper">
-  <app-filters></app-filters>
+  <app-filters (filters)="updateFilters($event)"></app-filters>
   <app-explorer [products]="products.value"></app-explorer>
 </div>

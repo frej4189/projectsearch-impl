@@ -12,6 +12,10 @@ import { MatTableModule } from '@angular/material/table';
 import { ReadablePipe } from './pipes/readable.pipe';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MultiSliderComponent } from './components/multi-slider/multi-slider.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,8 @@ import { MatPaginator } from '@angular/material/paginator';
     ExplorerComponent,
     SearchComponent,
     FiltersComponent,
-    ReadablePipe
+    ReadablePipe,
+    MultiSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,10 @@ import { MatPaginator } from '@angular/material/paginator';
     HttpClientModule,
     MatTableModule,
     MatSortModule,
-    MatPaginator
+    MatPaginator,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [
     provideAnimationsAsync()
