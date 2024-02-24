@@ -16,6 +16,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MultiSliderComponent } from './components/multi-slider/multi-slider.component';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MultiSliderComponent } from './components/multi-slider/multi-slider.com
     MatPaginator,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSliderModule
   ],
   providers: [
     provideAnimationsAsync()

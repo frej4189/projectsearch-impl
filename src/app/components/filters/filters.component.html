@@ -1,4 +1,4 @@
 <div class="wrapper">
     <app-search (search)="updateSearchFilter($event)"></app-search>
-    <app-multi-slider></app-multi-slider>
+    <app-multi-slider *ngIf="products.length > 0" (selectedPriceRange)="updatePriceFilter($event[0], $event[1])" [minimumPrice]="calculateMinimumPrice()" [maximumPrice]="calculateMaximumPrice()"></app-multi-slider>
 </div>

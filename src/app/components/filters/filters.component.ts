@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UnaryFunction } from 'rxjs';
 import { Product } from '../../products';
 
@@ -9,6 +9,7 @@ import { Product } from '../../products';
 })
 export class FiltersComponent {
 
+  @Input() products: Product[] = [];
   @Output() filters = new EventEmitter<UnaryFunction<Product[], Product[]>[]>();
 
   private searchFilter = (products: Product[]) => products;
@@ -28,6 +29,20 @@ export class FiltersComponent {
     });
 
     this.broadcastFilters();
+
+    console.log('Price filter updated');
+  }
+
+  calculateMinimumPrice() {
+    if(this.products.length === 0) return 0;
+
+    return (this.products.reduce((min, p) => (!min || p.price && p.price < min) ? p.price : min, this.products[0].price) ?? 0) / 100;
+  }
+
+  calculateMaximumPrice() {
+    if(this.products.length === 0) return 0;
+
+    return (this.products.reduce((max, p) => (!max || p.price && p.price > max) ? p.price : max, this.products[0].price) ?? 0) / 100;
   }
 
   private broadcastFilters() {

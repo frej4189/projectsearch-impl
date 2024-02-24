@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.runningSearch.pipe(
-      debounceTime(300),
+      debounceTime(200),
       distinctUntilChanged()
     ).subscribe(value => this.search.emit(value));
   }

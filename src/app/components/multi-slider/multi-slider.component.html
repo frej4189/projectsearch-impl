@@ -1,0 +1,10 @@
+<mat-form-field>
+    <input matInput type="number" [(ngModel)]="minSelected" [min]="minimumPrice" [max]="maxSelected" (keyup)="checkMin()">
+</mat-form-field>
+<mat-slider [min]="minimumPrice" [max]="maximumPrice" step="0.01">
+    <input matSliderStartThumb [(ngModel)]="minSelected" (valueChange)="checkMin()">
+    <input matSliderEndThumb [(ngModel)]="maxSelected" (valueChange)="checkMax()">
+</mat-slider>
+<mat-form-field>
+    <input matInput type="number" [(ngModel)]="maxSelected" [min]="minSelected" [max]="maximumPrice" (keyup)="checkMax()">
+</mat-form-field>
