@@ -8,18 +8,26 @@ import { ExplorerComponent } from './components/explorer/explorer.component';
 import { SearchComponent } from './components/search/search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FiltersComponent } from './components/filters/filters.component';
+import { MatTableModule } from '@angular/material/table';
+import { ReadablePipe } from './pipes/readable.pipe';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
     AppComponent,
     ExplorerComponent,
     SearchComponent,
-    FiltersComponent
+    FiltersComponent,
+    ReadablePipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginator
   ],
   providers: [
     provideAnimationsAsync()

@@ -1,0 +1,10 @@
+.table-wrapper {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.wrapper {
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
