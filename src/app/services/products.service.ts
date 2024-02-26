@@ -12,7 +12,11 @@ export class ProductsService {
 
   getProductList() {
     return this.http.get<SearchProductResponse>('assets/products.json').pipe(
-      map(response => response.content ?? [])
+      map(response => response.content ?? []),
+      map(products => products.map(product => ({
+        ...product,
+        title: product.title.trim()
+      })))
     );
   }
 }

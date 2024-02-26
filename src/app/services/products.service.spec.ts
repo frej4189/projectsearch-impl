@@ -19,6 +19,11 @@ describe('ProductsService', () => {
         productno: '2',
         title: 'Product 2',
         price: 200
+      },
+      {
+        'productno': '3',
+        title: ' Product 3',
+        price: 300
       }
     ]
   }
@@ -45,6 +50,15 @@ describe('ProductsService', () => {
   it('should return a list of products', waitForAsync(() => {
     service.getProductList().subscribe(products => {
       expect(products?.length ?? 0).toBeGreaterThan(0);
+    });
+  }));
+
+  it('should return a list of products with trimmed titles', waitForAsync(() => {
+    service.getProductList().subscribe(products => {
+      products?.forEach(product => {
+        expect(product.title).not.toMatch(/^\s/);
+        expect(product.title).not.toMatch(/\s$/);
+      });
     });
   }));
 });
