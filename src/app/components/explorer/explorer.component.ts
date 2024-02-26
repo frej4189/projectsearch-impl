@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import { Product } from '../../products';
-import { MatSort, Sort } from '@angular/material/sort';
-import { BehaviorSubject, Observable, Subject, map, of, take, tap } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { Observable, Subject } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-explorer',

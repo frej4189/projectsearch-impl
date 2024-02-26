@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProductsService } from './products.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AppModule } from '../app.module';
 import { of } from 'rxjs';
 
