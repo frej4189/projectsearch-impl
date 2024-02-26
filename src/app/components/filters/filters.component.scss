@@ -1,0 +1,25 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+.search-wrapper {
+    flex: 1 0 50%;
+    min-width: 350px;
+}
+
+.price-wrapper {
+    max-width: 500px;
+    flex: 1 0 50%;
+    min-width: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+app-search {
+    width: 100%;
+}
