@@ -15,5 +15,5 @@
             <tr mat-row *matRowDef="let row; columns: ['title', 'price'];"></tr>
         </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons (page)="changePage($event)" [length]="products.length"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons (page)="changePage()" [length]="products.length"></mat-paginator>
 </div>

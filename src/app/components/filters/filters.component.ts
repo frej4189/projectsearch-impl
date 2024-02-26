@@ -17,7 +17,19 @@ export class FiltersComponent {
 
   updateSearchFilter(search: string) {
     if(search === '') this.searchFilter = (products: Product[]) => products;
-    else this.searchFilter = (products: Product[]) => products.filter(p => p.title.toLowerCase().includes(search.toLowerCase()));
+    else {
+      const keywords = search.toLowerCase().split(/\s/);
+      this.searchFilter = (products: Product[]) => {
+        return products.filter(p => {
+          const compareWith = p.title.toLowerCase();
+          return keywords.some(k => compareWith.includes(k)); // Get products that contain at least one keyword from the search
+        }).sort((a, b) => { // Sort products by the number of keywords found in the title (relevance). This will be overridden by price and/or name sorting
+          const aIndex = keywords.reduce((acc, k) => acc + (a.title.toLowerCase().includes(k) ? 1 : 0), 0);
+          const bIndex = keywords.reduce((acc, k) => acc + (b.title.toLowerCase().includes(k) ? 1 : 0), 0);
+          return bIndex - aIndex;
+        });
+      }
+    }
 
     this.broadcastFilters();
   }
@@ -29,8 +41,6 @@ export class FiltersComponent {
     });
 
     this.broadcastFilters();
-
-    console.log('Price filter updated');
   }
 
   calculateMinimumPrice() {

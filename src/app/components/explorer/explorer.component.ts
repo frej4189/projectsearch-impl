@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Product } from '../../products';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Observable, Subject, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, of, take, tap } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -13,6 +13,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 })
 export class ExplorerComponent implements OnChanges {
 
+  private sortedData: Product[] = [];
   @Input() products: Product[] = [];
   dataSource = new ProductDataSource();
 
@@ -20,11 +21,13 @@ export class ExplorerComponent implements OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   onSortData() {
-    this.dataSource.update(this.getPagedData(this.sortData(this.products)));
+    const sorted = this.sortData(this.products.slice()); // Clone the array to avoid modifying the original (to keep the original order).
+    this.dataSource.update(sorted);
   }
 
   sortData(data: Product[]): Product[] {
-    if(!this.sort) return data;
+    if(!this.sort || this.sort.direction === '') return data;
+    
     const mult = this.sort.direction === 'asc' ? 1 : -1;
     switch(this.sort.active) {
       case 'price':
@@ -36,34 +39,43 @@ export class ExplorerComponent implements OnChanges {
     return data;
   }
 
-  changePage(event: PageEvent) {
-    this.dataSource.update(this.getPagedData(this.products));
+  changePage() {
+    this.dataSource.updatePage(this.paginator.pageSize, this.paginator.pageIndex);
   }
 
   ngOnChanges() {
-    this.dataSource.update(this.getPagedData(this.sortData(this.products)));
+    this.sortedData = this.sortData(this.products.slice()); // A bit inefficient but we should never send big chunks of data to the client anyway
+    this.dataSource.update(this.sortedData);
   }
 
-  private getPagedData(data: Product[]) {
-    if(!this.paginator) return data;
-
-    return data.slice(this.getStartIndex(), this.getEndIndex());
-  }
-
-  private getStartIndex() {
-    return this.paginator.pageIndex * this.paginator.pageSize;
-  }
-
-  private getEndIndex() {
-    return (this.paginator.pageIndex + 1) * this.paginator.pageSize;
-  }
 }
 
 class ProductDataSource extends DataSource<Product> {
+  private pageIndex = 0;
+  private pageSize = 5;
   private products: Subject<Product[]> = new Subject<Product[]>();
+  private data: Product[] = [];
 
   constructor() {
     super();
+  }
+
+  private getStartIndex() {
+    return this.pageIndex * this.pageSize;
+  }
+
+  private getEndIndex() {
+    return (this.pageIndex + 1) * this.pageSize;
+  }
+
+  private getPagedData(): Product[] {
+    return this.data.slice(this.getStartIndex(), this.getEndIndex());
+  }
+
+  updatePage(pageSize: number, pageIndex: number) {
+    this.pageSize = pageSize;
+    this.pageIndex = pageIndex;
+    this.products.next(this.getPagedData());
   }
 
   connect(): Observable<Product[]> {
@@ -75,6 +87,7 @@ class ProductDataSource extends DataSource<Product> {
   }
 
   update(data: Product[]) {
-    this.products.next(data);
+    this.data = data;
+    this.products.next(this.getPagedData());
   }
 }
