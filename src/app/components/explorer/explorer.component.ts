@@ -20,6 +20,8 @@ export class ExplorerComponent implements OnChanges {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   onSortData() {
+    this.paginator.firstPage(); // Reset the paginator to the first page
+
     const sorted = this.sortData(this.products.slice()); // Clone the array to avoid modifying the original (to keep the original order).
     this.dataSource.update(sorted);
   }

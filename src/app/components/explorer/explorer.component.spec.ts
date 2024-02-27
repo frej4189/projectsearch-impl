@@ -112,6 +112,29 @@ describe('ExplorerComponent', () => {
     expect(cells2[1].innerHTML).toEqual(`$6.00`);
   });
 
+  it('should reset to page 1 when updating sort', async () => {
+    fixture.detectChanges();
+    const element = fixture.nativeElement;
+
+    const sortButtons = element.querySelectorAll('th.mat-sort-header > div[role="button"]');
+    expect(sortButtons[0]).toBeTruthy();
+
+    const paginator = component.paginator;
+
+    paginator.pageSize = 5;
+    paginator.pageIndex = 1;
+
+    component.changePage();
+
+    fixture.detectChanges();
+
+    sortButtons[0].click();
+
+    fixture.detectChanges();
+
+    expect(paginator.pageIndex).toBe(0);
+  });
+
   it('should sort products by name', async () => {
     fixture.detectChanges();
     const element = fixture.nativeElement;
